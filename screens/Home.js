@@ -4,7 +4,7 @@ import React, {useState} from 'react';
 import Layout from '../layout/Layout';
 import {Text} from 'react-native-paper';
 import {getAllProducts} from '../actions/api';
-import {View, Image, StyleSheet} from 'react-native';
+import {Pressable, View, Image, StyleSheet} from 'react-native';
 
 export default function Home(props) {
   const [products, setproducts] = useState([]);
@@ -16,7 +16,14 @@ export default function Home(props) {
     <Layout title={'Home'}>
       <View style={styles.gridContainer}>
         {products.map(item => (
-          <View key={item._id} style={styles.cardContainer}>
+          <Pressable
+            onPress={() => {
+              props.navigation.navigate('About', {
+                id: item._id,
+              });
+            }}
+            key={item._id}
+            style={styles.cardContainer}>
             <View style={styles.card}>
               <Image
                 src={item.image.url}
@@ -24,11 +31,6 @@ export default function Home(props) {
               />
             </View>
             <Text
-              onPress={() => {
-                props.navigation.navigate('About', {
-                  id: item._id,
-                });
-              }}
               style={{
                 color: 'black',
                 fontSize: 10,
@@ -39,7 +41,7 @@ export default function Home(props) {
               numberOfLines={1}>
               {item.title}
             </Text>
-          </View>
+          </Pressable>
         ))}
       </View>
     </Layout>
@@ -51,6 +53,7 @@ export const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     gap: 20,
+    columnGap: 33,
   },
   cardContainer: {
     display: 'flex',
@@ -91,5 +94,12 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     elevation: 4,
+  },
+  btnContainer: {
+    display: 'flex',
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
 });

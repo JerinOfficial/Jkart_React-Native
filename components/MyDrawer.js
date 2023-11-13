@@ -3,19 +3,22 @@
 import React from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import Modal from 'react-native-modal';
+import {useNavigation} from '@react-navigation/native';
 
 const MyDrawer = ({open, close}) => {
   const [active, setActive] = React.useState('');
   const handleClose = () => {
     close(false);
   };
+  const navigation = useNavigation();
   return (
     <Modal
       style={{position: 'relative', margin: 0}}
       isVisible={open}
       animationIn="fadeInLeft"
       animationOut="fadeOutLeft"
-      onBackButtonPress={handleClose}>
+      onBackButtonPress={handleClose}
+      onDismiss={handleClose}>
       <View style={styles.drawer}>
         <View style={styles.header}>
           <Text style={{fontWeight: 'bold'}}>Login & Signup</Text>
@@ -35,6 +38,15 @@ const MyDrawer = ({open, close}) => {
             close(false);
           }}>
           <Text style={styles.text}>Second Item</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={active === 'Login' ? styles.activeItem : styles.drawerItem}
+          onPress={() => {
+            setActive('Login');
+            close(false);
+            navigation.navigate('Login');
+          }}>
+          <Text style={styles.text}>Login</Text>
         </TouchableOpacity>
       </View>
     </Modal>

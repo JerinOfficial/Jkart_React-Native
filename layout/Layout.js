@@ -12,7 +12,6 @@ export default function Layout({title, children}) {
       <StatusBar backgroundColor={'black'} />
       <Header title={title} open={setisOpen} />
       <ScrollView style={styles.body}>{children}</ScrollView>
-
       <MyDrawer open={isOpen} close={setisOpen} />
     </>
   );

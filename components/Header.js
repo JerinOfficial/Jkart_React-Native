@@ -3,13 +3,16 @@ import React from 'react';
 import {Appbar, IconButton, Searchbar} from 'react-native-paper';
 import MenuIcon from './SVG/MenuIcon';
 import CartIcon from './SVG/CartIcon';
-import {View, StyleSheet} from 'react-native';
+import {Pressable, View, StyleSheet} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
 export default function Header({title, open, ...props}) {
   const _handleSearch = () => console.log('Searching');
   const [searchQuery, setSearchQuery] = React.useState('');
 
   const onChangeSearch = query => setSearchQuery(query);
+  const navigation = useNavigation();
+
   return (
     <Appbar.Header style={Styles.container}>
       <View style={Styles.header}>
@@ -19,12 +22,13 @@ export default function Header({title, open, ...props}) {
             open(true);
           }}
         />
-        <Appbar.BackAction onPress={props._goBack} />
         <Appbar.Content title={title} />
-        <Appbar.Action icon="magnify" onPress={_handleSearch} />
-        <CartIcon />
+        <Pressable onPress={() => navigation.navigate('AddToCart')}>
+          <CartIcon />
+        </Pressable>
       </View>
       <Searchbar
+        icon={() => <MenuIcon />}
         style={Styles.searchBar}
         placeholder="Search for Products, Brands and More"
         onChangeText={onChangeSearch}
@@ -45,12 +49,11 @@ const Styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    width: '100%',
+    width: '98%',
   },
   searchBar: {
     borderRadius: 0,
     backgroundColor: 'white',
     color: 'gray',
-    height: 45,
   },
 });
